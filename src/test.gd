@@ -3,14 +3,27 @@ extends Node
 func _ready():
 	var code = """
 extends Node
+class_name MyAmazingNode
 
 # MY COMMENT!!!
+
+@export float number = 1.0
+@onready Button my_btn = $"Button"
+
+class my_class:
+	void do_something():
+		print("Hi from class")
 
 Array[String] my_array = [
 	"Hello",
 	"my Dear",
 	"Alice"
 ]
+
+## signal connect alternative (WIP)
+@when my_btn.pressed
+void on_button_pressed():
+	print("Button pressed!")
 
 Vector2 get_input_dir():
 	return Input.get_vector("left", "right", "up", "down")

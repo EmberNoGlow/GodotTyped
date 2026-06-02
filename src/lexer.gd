@@ -4,7 +4,7 @@ extends RefCounted
 enum TokenType {
 	KEYWORD_TYPE, KEYWORD_FLOW, IDENTIFIER, NUMBER, STRING,
 	EQUALS, PLUS_EQUALS, PLUS, MINUS, SLASH,
-	LPAREN, RPAREN, LBRACKET, RBRACKET, COLON, COMMA, DOT,
+	LPAREN, RPAREN, LBRACKET, RBRACKET, COLON, COMMA, DOT, AT, DOLLAR,
 	INDENT, DEDENT, NEWLINE, EOF
 }
 
@@ -23,7 +23,7 @@ class Token:
 	func _to_string() -> String:
 		return "Token(%s, '%s')" % [TokenType.keys()[type], value]
 
-const TYPE_KEYWORDS = ["void", "float", "int", "String", "array", "Vector2", "Vector3", "bool"]
+const TYPE_KEYWORDS = ["void", "float", "int", "String", "Array", "Vector2", "Vector3", "bool", "Dictionary", "Callable"]
 const FLOW_KEYWORDS = ["extends", "for", "in", "return"]
 
 func tokenize(source_code: String) -> Array[Token]:
@@ -64,7 +64,31 @@ func tokenize(source_code: String) -> Array[Token]:
 						tokens.append(Token.new(TokenType.DEDENT, "", start, i))
 			is_line_start = false
 			continue
-			
+		
+		if char == "@":
+			tokens.append(
+				Token.new(
+					TokenType.AT,
+					"@",
+					start,
+					i + 1
+				)
+			)
+			i += 1
+			continue
+		
+		if char == "$":
+			tokens.append(
+				Token.new(
+					TokenType.DOLLAR,
+					"$",
+					start,
+					i + 1
+				)
+			)
+			i += 1
+			continue
+		
 		if char == "\n" or char == "\r":
 			if bracket_nesting_level == 0:
 				tokens.append(Token.new(TokenType.NEWLINE, "\\n", start, i + 1))
