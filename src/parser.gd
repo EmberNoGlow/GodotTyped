@@ -16,9 +16,30 @@ func parse(p_tokens: Array[GDT_Lexer.Token]) -> Array[GDT_AST.NodeAST]:
 	return ast
 
 func parse_statement() -> GDT_AST.NodeAST:
-	if match_keyword_flow("extends"): return parse_extends()
-	if check(GDT_Lexer.TokenType.KEYWORD_TYPE) or (check(GDT_Lexer.TokenType.IDENTIFIER) and peek_next() and peek_next().type == GDT_Lexer.TokenType.LBRACKET):
-		return parse_declaration()
+	var annotations: Array[String] = []
+
+	while check(GDT_Lexer.TokenType.AT):
+		annotations.append(
+			parse_annotation()
+		)
+
+	if match_keyword_flow("extends"):
+		return parse_extends()
+
+	if check_identifier("class_name"):
+		return parse_class_name()
+
+	if check_identifier("class"):
+		return parse_class()
+
+	if check(GDT_Lexer.TokenType.KEYWORD_TYPE):
+		return parse_declaration(annotations)
+
+	if check(GDT_Lexer.TokenType.IDENTIFIER):
+		if peek_next() != null:
+			if peek_next().type == GDT_Lexer.TokenType.IDENTIFIER:
+				return parse_declaration(annotations)
+
 	advance()
 	return null
 
@@ -26,7 +47,79 @@ func parse_extends() -> GDT_AST.ExtendsNode:
 	var name_token = consume(GDT_Lexer.TokenType.IDENTIFIER, "Expect class name.")
 	return GDT_AST.ExtendsNode.new(name_token.value)
 
-func parse_declaration() -> GDT_AST.NodeAST:
+func check_identifier(name: String) -> bool:
+	if not check(GDT_Lexer.TokenType.IDENTIFIER):
+		return false
+	return peek().value == name
+
+func parse_class_name() -> GDT_AST.ClassNameNode:
+	advance()
+
+	var name_token = consume(
+		GDT_Lexer.TokenType.IDENTIFIER,
+		"Expected class name"
+	)
+
+	return GDT_AST.ClassNameNode.new(
+		name_token.value
+	)
+
+func parse_class() -> GDT_AST.ClassNode:
+	advance()
+
+	var name_token = consume(
+		GDT_Lexer.TokenType.IDENTIFIER,
+		"Expected class name"
+	)
+
+	consume(
+		GDT_Lexer.TokenType.COLON,
+		"Expected ':'"
+	)
+
+	consume(
+		GDT_Lexer.TokenType.NEWLINE,
+		"Expected newline"
+	)
+
+	consume(
+		GDT_Lexer.TokenType.INDENT,
+		"Expected indent"
+	)
+
+	var body: Array[GDT_AST.NodeAST] = []
+
+	while not check(GDT_Lexer.TokenType.DEDENT):
+		if match_token(GDT_Lexer.TokenType.NEWLINE):
+			continue
+
+		var node = parse_statement()
+
+		if node != null:
+			body.append(node)
+
+	consume(
+		GDT_Lexer.TokenType.DEDENT,
+		"Expected dedent"
+	)
+
+	return GDT_AST.ClassNode.new(
+		name_token.value,
+		body
+	)
+
+func parse_annotation() -> String:
+	consume(
+		GDT_Lexer.TokenType.AT,
+		"Expected @"
+	)
+
+	return consume(
+		GDT_Lexer.TokenType.IDENTIFIER,
+		"Expected annotation name"
+	).value
+
+func parse_declaration(annotations: Array[String] = []) -> GDT_AST.NodeAST:
 	var type_token = advance()
 	var type_str = type_token.value
 	if match_token(GDT_Lexer.TokenType.LBRACKET):
@@ -67,8 +160,15 @@ func parse_declaration() -> GDT_AST.NodeAST:
 		var val_end := val_start
 		while not check(GDT_Lexer.TokenType.NEWLINE) and not is_at_end():
 			val_end = advance().end_pos
-		return GDT_AST.VariableNode.new(type_str, name_token.value, val_start, val_end)
 		
+		return GDT_AST.VariableNode.new(
+			type_str,
+			name_token.value,
+			val_start,
+			val_end,
+			annotations
+		)
+
 	return null
 
 
