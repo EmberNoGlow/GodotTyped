@@ -3,7 +3,7 @@ class_name GodotTypedLanguage
 extends ScriptLanguageExtension
 
 func _init() -> void:
-	Engine.set_meta("MyCustomLanguageInstance", self)
+	Engine.set_meta("GodotTypedLanguageInstance", self)
 
 func _get_name() -> String:
 	return "GodotTyped"
@@ -18,7 +18,7 @@ func _create_script() -> Object:
 	return GodotTypedScript.new()
 
 func _handles_global_class_type(p_type: String) -> bool:
-	return p_type == "GodotTypedScript"
+	return p_type == "GodotTypedScript" or p_type == "GodotTyped"
 
 func _overrides_external_editor() -> bool:
 	return false
@@ -62,7 +62,7 @@ func _validate(_p_script: String, _p_path: String, _p_validate_functions: bool, 
 
 func _get_global_class_name(_p_path: String) -> Dictionary:
 	return {
-		"base_type": &"",
+		"base_type": &"Node",
 		"class_name": &""
 	}
 
