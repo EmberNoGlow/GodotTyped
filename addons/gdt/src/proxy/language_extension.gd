@@ -23,9 +23,8 @@ func _handles_global_class_type(p_type: String) -> bool:
 func _overrides_external_editor() -> bool:
 	return false
 
-# YOUR SYNTAX HIGHLIGHT HERE
 func _get_reserved_words() -> PackedStringArray:
-	return PackedStringArray(["func", "var", "if", "else", "return", "while", "for", "print"])
+	return PackedStringArray([])
 
 func _get_comment_delimiters() -> PackedStringArray:
 	return PackedStringArray(["#"])
@@ -43,7 +42,7 @@ func _get_built_in_templates(p_object: StringName) -> Array[Dictionary]:
 	return [{
 		"inherit": p_object,
 		"name": "Default",
-		"description": "Basic MyLang Template",
+		"description": "Basic GodotTyped Template",
 		"content": "# Your code here!!!\n"
 	}]
 
@@ -67,7 +66,7 @@ func _get_global_class_name(_p_path: String) -> Dictionary:
 	}
 
 func _auto_indent_code(_p_code: String, _p_from_line: int, _p_to_line: int) -> String:
-	return "I realy dont know"
+	return "I really dont know"
 
 func _find_function(_p_class_name: String, _p_function_name: String) -> int:
 	return -1

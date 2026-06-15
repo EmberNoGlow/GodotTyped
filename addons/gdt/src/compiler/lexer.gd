@@ -24,27 +24,6 @@ class Token:
 	func _to_string() -> String:
 		return "Token(%s, '%s')" % [TokenType.keys()[type], value]
 
-var FLOW_KEYWORDS = ["extends", "for", "in", "return"]
-
-static var TYPE_LIST : Array[String] = []
-
-func _init():
-	if TYPE_LIST.is_empty():
-		TYPE_LIST = get_type_list()
-
-func get_type_list() -> Array[String]:
-	var result: Array[String] = []
-	
-	for i in range(TYPE_MAX):
-		if i == TYPE_NIL:
-			continue
-			
-		var name: String = type_string(i)
-		result.append(name)
-	
-	result.append_array(ClassDB.get_class_list())
-	return result
-
 func tokenize(source_code: String) -> Array[Token]:
 	var tokens: Array[Token] = []
 	var i := 0
@@ -171,8 +150,8 @@ func tokenize(source_code: String) -> Array[Token]:
 			while i < length and (source_code[i].is_valid_identifier() or source_code[i] == "_" or source_code[i].is_valid_int()):
 				word += source_code[i]
 				i += 1
-			if word in TYPE_LIST: tokens.append(Token.new(TokenType.KEYWORD_TYPE, word, start, i))
-			elif word in FLOW_KEYWORDS: tokens.append(Token.new(TokenType.KEYWORD_FLOW, word, start, i))
+			if word in GodotTypedSyntaxConfig.types_list: tokens.append(Token.new(TokenType.KEYWORD_TYPE, word, start, i))
+			elif word in GodotTypedSyntaxConfig.flow_keyword: tokens.append(Token.new(TokenType.KEYWORD_FLOW, word, start, i))
 			else: tokens.append(Token.new(TokenType.IDENTIFIER, word, start, i))
 			continue
 			
