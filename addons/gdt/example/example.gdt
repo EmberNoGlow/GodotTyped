@@ -1,4 +1,23 @@
 extends Node
 
+float sum(float a, float b):
+	float result = a+b
+	print(a, " + ", b, " = ", result)
+	return result
+
+float distance(Vector2 a, Vector2 b):
+	float result = a.distance_to(b)
+	print("the distance from ", a, " to ", b, " is ", result)
+	return result
+
 void _ready():
 	print("HELLO FROM GDT")
+	sum(
+		2.2,
+		round(
+			distance(
+				Vector2(0, 4),
+				Vector2(-2, 6)
+				)
+			)
+		)
