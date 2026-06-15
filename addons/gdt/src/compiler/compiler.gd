@@ -1,3 +1,4 @@
+@tool
 class_name GDT_Compiler
 extends RefCounted
 

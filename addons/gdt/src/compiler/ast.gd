@@ -1,3 +1,4 @@
+@tool
 class_name GDT_AST
 
 class NodeAST:
