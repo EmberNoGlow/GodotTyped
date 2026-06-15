@@ -34,7 +34,7 @@ void _ready():
 	
 	String final_str = ""
 	
-	for String word in my_array:
+	for word in my_array:
 		final_str += word + " "
 	
 	print(final_str)

@@ -139,7 +139,6 @@ func parse_declaration(annotations: Array[String] = []) -> GDT_AST.NodeAST:
 		consume(GDT_Lexer.TokenType.COLON, "Expect ':'")
 		consume(GDT_Lexer.TokenType.NEWLINE, "Expect newline")
 		
-		# FIX: Grab body start position right here (before INDENT token)
 		var body_start := peek().start_pos 
 		consume(GDT_Lexer.TokenType.INDENT, "Expect indent")
 		
