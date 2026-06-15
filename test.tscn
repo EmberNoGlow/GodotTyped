@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://cf4uk0oeqhs18"]
+[gd_scene load_steps=2 format=3 uid="uid://cf4uk0oeqhs18"]
+
+[sub_resource type="GDScript" id="GDScript_mf4mk"]
+script/source = "extends Node
+
+func _ready() -> void:
+	print(\"HELLO FROM GDT\")
+
+
+"
 
 [node name="Node" type="Node"]
+script = SubResource("GDScript_mf4mk")

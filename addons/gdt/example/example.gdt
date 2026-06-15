@@ -1,0 +1,4 @@
+extends Node
+
+void _ready():
+	print("HELLO FROM GDT")
