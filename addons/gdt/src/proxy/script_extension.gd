@@ -22,12 +22,10 @@ func _compile_to_gdscript() -> void:
 		gdscript_instance = GDScript.new()
 	
 	var base_type = _parse_base_type(_source_code)
+	# "compile" is a static function.
+	var gdscript = GodotTypedCompilerBridge.compile(_source_code)
 	
-	var compiled_code = "extends " + String(base_type) + "\n\n"
-	compiled_code += "func _ready():\n"
-	compiled_code += "\tprint('Hello from GodotTyped!!!')\n"
-	
-	gdscript_instance.source_code = compiled_code
+	gdscript_instance.source_code = gdscript
 	gdscript_instance.reload()
 
 func _parse_base_type(code: String) -> StringName:
