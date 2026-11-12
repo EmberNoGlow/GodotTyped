@@ -7,6 +7,11 @@ func _get_name() -> String:
 
 func _get_supported_languages() -> PackedStringArray:
 	return PackedStringArray(["gdt"])
+
+func hl_setting(editor_settings, setting: String):
+	setting = "text_editor/theme/highlighting/"+setting+"_color"
+	return editor_settings.get_setting(setting)
+
 func _get_line_syntax_highlighting(line: int) -> Dictionary:
 	var result = {}
 	var text_line = get_text_edit().get_line(line)
@@ -14,17 +19,19 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 	if text_line.strip_edges().is_empty():
 		return result
 
-	var settings = EditorInterface.get_editor_settings()
-	var color_keyword = settings.get_setting("text_editor/theme/highlighting/keyword_color")
-	var color_control = settings.get_setting("text_editor/theme/highlighting/control_flow_keyword_color")
-	var color_builtin = settings.get_setting("text_editor/theme/highlighting/engine_type_color")
-	var color_string = settings.get_setting("text_editor/theme/highlighting/string_color")
-	var color_comment = settings.get_setting("text_editor/theme/highlighting/comment_color")
-	var color_number = settings.get_setting("text_editor/theme/highlighting/number_color")
-	var color_normal = settings.get_setting("text_editor/theme/highlighting/text_color")
+	var sets = EditorInterface.get_editor_settings()
+	var color_keyword  = hl_setting(sets, "keyword")
+	var color_control  = hl_setting(sets, "control_flow_keyword")
+	var color_function = hl_setting(sets, "function")
+	var color_type     = hl_setting(sets, "base_type")
+	var color_builtin  = hl_setting(sets, "engine_type")
+	var color_string   = hl_setting(sets, "string")
+	var color_comment  = hl_setting(sets, "comment")
+	var color_number   = hl_setting(sets, "number")
+	var color_normal   = hl_setting(sets, "text")
 	
 	var regex = RegEx.new()
-	regex.compile("(\"[^\"]*\")|(#.*)|(\\b\\d+\\b)|(\\b\\w+\\b)")
+	regex.compile(r"(\B@\w+)|(\"[^\"]*\")|(#.*)|(\b\d+\b)|(\b\w+\b)")
 	
 	var matches = regex.search_all(text_line)
 	var current_color = color_normal
@@ -35,6 +42,8 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 		var end_pos = m.get_end()
 		var token_color = color_normal
 		
+		if token.begins_with("@"):
+			token_color = Color(1.0, 0.708, 0.434, 1.0) # idk
 		if token.begins_with("\""):
 			token_color = color_string
 		elif token.begins_with("#"):
@@ -44,9 +53,9 @@ func _get_line_syntax_highlighting(line: int) -> Dictionary:
 		elif token in GodotTypedSyntaxConfig.flow_keyword:
 			token_color = color_control
 		elif token in GodotTypedSyntaxConfig.types_list:
-			token_color = color_keyword
+			token_color = color_keyword # or color_type
 		elif end_pos < text_line.length() and text_line[end_pos] == "(":
-			token_color = color_builtin
+			token_color = color_function
 
 		if token_color != current_color:
 			result[start_pos] = {"color": token_color}

@@ -10,6 +10,16 @@ func _enter_tree() -> void:
 	GodotTypedSyntaxConfig.make_keywords()
 	register()
 
+	# ScriptDialog hack
+	var base = EditorInterface.get_base_control()
+	var dialogs = base.find_children("*", "ScriptCreateDialog", true, false)
+	for dialog in dialogs:
+		var option_buttons = dialog.find_children("*", "OptionButton", true, false)
+		for btn: OptionButton in option_buttons:
+			if btn.item_count > 0 and btn.get_item_text(0) == "GDScript":
+				var lang_idx = Engine.get_script_language_count() - 1
+				btn.add_item("Typed Script", lang_idx)
+
 func _exit_tree() -> void:
 	unregister()
 

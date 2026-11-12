@@ -2,7 +2,6 @@
 class_name GodotTypedSyntaxConfig
 extends RefCounted
 
-static var reserved_words : Array[String]
 static var types_list : Array[String]
 
 static var flow_keyword : Array[String] = [
@@ -28,8 +27,5 @@ static func get_type_list() -> Array[String]:
 	return result
 
 static func make_keywords():
-	reserved_words.clear()
 	types_list = get_type_list()
 	types_list.append_array(["null", "void"])
-	reserved_words.append_array(types_list)
-	reserved_words.append_array(flow_keyword)
