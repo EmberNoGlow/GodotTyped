@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/gdt/assets/mini-icon.svg")
 class_name GodotTypedScript
 extends ScriptExtension
 
@@ -23,7 +24,7 @@ func _compile_to_gdscript() -> void:
 	
 	var base_type = _parse_base_type(_source_code)
 	# "compile" is a static function.
-	var gdscript = GodotTypedCompilerBridge.compile(_source_code)
+	var gdscript = GodotTypedCompilerBridge.compile(_source_code, resource_path)
 	
 	gdscript_instance.source_code = gdscript
 	gdscript_instance.reload()
@@ -40,7 +41,13 @@ func _is_valid() -> bool:
 	return gdscript_instance != null and gdscript_instance.source_code != ""
 
 func _is_tool() -> bool:
-	return true
+	for line in _source_code.split("\n"):
+		var trimmed := line.strip_edges()
+		if trimmed.is_empty() or trimmed.begins_with("#"):
+			continue
+		if trimmed.begins_with("@tool"):
+			return true
+	return false
 
 func _get_instance_base_type() -> StringName:
 	return _parse_base_type(_source_code)

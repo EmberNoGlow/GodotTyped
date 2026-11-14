@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/gdt/assets/mini-icon.svg")
 class_name GodotTypedLanguage
 extends ScriptLanguageExtension
 
