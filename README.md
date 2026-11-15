@@ -1,6 +1,6 @@
 # Godot Typed Script
 
-![](https://raw.githubusercontent.com/EmberNoGlow/GodotTyped/f01812c9be338e6057396cf796bb228ee0b70ba1/addons/gdt/assets/logo.svg)
+![](https://raw.githubusercontent.com/EmberNoGlow/GodotTyped/main/addons/gdt/assets/logo.svg)
 
 **GodotTyped** brings C-style static typing and extra syntactic sugar to GDScript, cutting down on repetitive boilerplate.
 
