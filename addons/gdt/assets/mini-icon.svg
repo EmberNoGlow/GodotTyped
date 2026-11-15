@@ -1,5 +1,13 @@
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M 7 1 H 9 L 9.5 2.8 C 10.1 3.0 10.6 3.3 11.1 3.7 L 12.7 3.0 L 13.9 5.0 L 12.5 6.1 C 12.7 6.7 12.8 7.3 12.8 8.0 H 10.0 C 10.0 6.9 9.1 6.0 8.0 6.0 C 6.9 6.0 6.0 6.9 6.0 8.0 C 6.0 9.1 6.9 10.0 8.0 10.0 V 12.8 C 7.3 12.8 6.7 12.7 6.1 12.5 L 5.1 13.9 L 3.0 12.7 L 3.7 11.2 C 3.3 10.7 3.0 10.2 2.8 9.6 L 1.2 9.2 V 6.8 L 2.8 6.4 C 3.0 5.8 3.3 5.3 3.7 4.8 L 3.0 3.3 L 5.1 2.1 L 6.1 3.5 C 6.4 3.4 6.7 3.3 7.0 3.2 V 1 Z" fill="#e0e0e0"/>
+    <defs>
+        <mask id="badge-cutout">
+            <rect width="16" height="16" fill="white"/>
+            <rect x="8.2" y="8.2" width="7.8" height="7.8" rx="2" fill="black"/>
+        </mask>
+    </defs>
+    <path fill-rule="evenodd" clip-rule="evenodd" mask="url(#badge-cutout)"
+          d="M 6.91 3.53 L 6.92 1.29 L 9.08 1.29 L 9.09 3.53 L 10.39 4.07 L 11.98 2.49 L 13.51 4.02 L 11.93 5.61 L 12.47 6.91 L 14.71 6.92 L 14.71 9.08 L 12.47 9.09 L 11.93 10.39 L 13.51 11.98 L 11.98 13.51 L 10.39 11.93 L 9.09 12.47 L 9.08 14.71 L 6.92 14.71 L 6.91 12.47 L 5.61 11.93 L 4.02 13.51 L 2.49 11.98 L 4.07 10.39 L 3.53 9.09 L 1.29 9.08 L 1.29 6.92 L 3.53 6.91 L 4.07 5.61 L 2.49 4.02 L 4.02 2.49 L 5.61 4.07 Z M 10 8 A 2 2 0 1 0 6 8 A 2 2 0 1 0 10 8 Z"
+          fill="#e0e0e0"/>
     <rect x="9" y="9" width="7" height="7" rx="1.5" fill="#478cbf"/>
-    <path d="M 10.5 11 H 14.5 M 12.5 11 V 14.3" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 10.7 11.1 H 14.3 M 12.5 11.1 V 14.2" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
 </svg>
